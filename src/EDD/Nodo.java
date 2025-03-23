@@ -9,9 +9,9 @@ package EDD;
  * @author PrietoAlejo
  */
 public class Nodo {
-    String dato;
-    Nodo izq;
-    Nodo der;
+    public String dato;
+    public Nodo izq;
+    public Nodo der;
 
     public Nodo(String dato) {
         this.dato = dato;

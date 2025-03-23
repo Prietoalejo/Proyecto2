@@ -4,17 +4,21 @@
  */
 package Ventanas;
 
+import EDD.Arbol;
+
 /**
  *
  * @author andre
  */
 public class MenuInicio extends javax.swing.JFrame {
-
+ static Arbol arbol;
     /**
      * Creates new form MenuInicio
      */
-    public MenuInicio() {
+    public MenuInicio(Arbol a) {
         initComponents();
+        this.setVisible(true);
+        arbol = a;
     }
 
     /**
@@ -40,6 +44,11 @@ public class MenuInicio extends javax.swing.JFrame {
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, -1, -1));
 
         jButton2.setText("Determinar Especie");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
 
         jLabel1.setText("Menu Inicial");
@@ -49,6 +58,12 @@ public class MenuInicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Determinar d = new Determinar(arbol);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -80,7 +95,7 @@ public class MenuInicio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuInicio().setVisible(true);
+                new MenuInicio(arbol).setVisible(true);
             }
         });
     }

@@ -4,16 +4,26 @@
  */
 package Ventanas;
 
+import EDD.Arbol;
+import EDD.Nodo;
+
 /**
  *
- * @author andre
+ * @author Prietoalejo
  */
 public class Determinar extends javax.swing.JFrame {
+
+    static Arbol arbol;
+    Nodo actual;
 
     /**
      * Creates new form Determinar
      */
-    public Determinar() {
+    public Determinar(Arbol a) {
+        this.arbol = a;
+        this.setVisible(true);
+
+        actual = arbol.raiz;
         initComponents();
     }
 
@@ -43,9 +53,19 @@ public class Determinar extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
         jButton1.setText("SI");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
 
         jButton2.setText("NO");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, -1, -1));
 
         jTextArea1.setColumns(20);
@@ -61,6 +81,42 @@ public class Determinar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + actual.dato + " ---- Si");
+        this.actual = actual.der;
+        if (actual != null) {
+            if (actual.izq != null || actual.der != null) {
+                this.jLabel2.setText(actual.dato);
+            } else {
+                this.jLabel2.setText("La planta es: " + actual.dato);
+                this.jButton1.setEnabled(false);
+                this.jButton2.setEnabled(false);
+                this.jButton1.setVisible(false);
+                this.jButton2.setVisible(false);
+
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + actual.dato + " ---- No");
+        this.actual = actual.izq;
+        if (actual != null) {
+            if (actual.izq != null || actual.der != null) {
+                this.jLabel2.setText(actual.dato);
+            } else {
+                this.jLabel2.setText("La planta es: " + actual.dato);
+                this.jButton1.setEnabled(false);
+                this.jButton2.setEnabled(false);
+                this.jButton1.setVisible(false);
+                this.jButton2.setVisible(false);
+
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -92,7 +148,7 @@ public class Determinar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Determinar().setVisible(true);
+                new Determinar(arbol).setVisible(true);
             }
         });
     }
