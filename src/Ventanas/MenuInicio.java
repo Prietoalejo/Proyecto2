@@ -8,7 +8,7 @@ import EDD.Arbol;
 
 /**
  *
- * @author andre
+ * @author Prietoalejo
  */
 public class MenuInicio extends javax.swing.JFrame {
  static Arbol arbol;

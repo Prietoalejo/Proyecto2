@@ -4,10 +4,12 @@
  */
 package proyecto2prietoa;
 
+import EDD.LectorJSON;
+
 /**
  *
  * @author Prietoalejo
  */
 public class main {
-    
+    LectorJSON lector = new LectorJSON();
 }

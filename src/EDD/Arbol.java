@@ -17,12 +17,12 @@ public class Arbol {
     }
 
     public void insertar(Nodo nodo, Nodo padre, boolean respuesta) {
-        if (padre == null) {
+        if (padre == null && raiz == null) {
             this.raiz = nodo;
         } else {
-            if (respuesta) {
+            if (respuesta && padre.der == null) {
                 padre.der = nodo;
-            } else {
+            } else if(!respuesta && padre.izq == null){
                 padre.izq = nodo;
             }
         }
