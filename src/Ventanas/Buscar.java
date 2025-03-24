@@ -51,29 +51,37 @@ public class Buscar extends javax.swing.JFrame {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Rockwell", 1, 36)); // NOI18N
         jLabel1.setText("BUSCAR ESPECIE");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, -1, -1));
 
-        jButton1.setText("SI");
+        jButton1.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
+        jButton1.setText("BUSCAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, -1, -1));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, -1, 40));
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 410, 260));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 160, 410, 260));
 
+        jLabel2.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
         jLabel2.setText("Preguntas:");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 110, -1, -1));
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 210, -1));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
 
+        jTextField1.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
+        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 210, -1));
+
+        jLabel3.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
         jLabel3.setText("Nombre");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, -1, -1));
 
         jButton2.setText("Volver");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -83,7 +91,7 @@ public class Buscar extends javax.swing.JFrame {
         });
         jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 400));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 450));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 560));
 
@@ -93,24 +101,31 @@ public class Buscar extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
+            long tiempoInicio = System.nanoTime();
+
+            this.jTextArea1.setText("");
             String name = this.jTextField1.getText().trim();
             Nodo[] nodos = arbol.encontrarCamino(name);
             for (int i = 0; i < nodos.length; i++) {
-                try{
+                try {
                     String dir;
-                  if(nodos[i].der.dato.equals(nodos[i+1].dato)){
-                      dir = "Si";
-                  }else{
-                      dir = "No";
-                  } 
-                  this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato + " --- " + dir);
-                }catch(Exception e){
+                    if (nodos[i].der.dato.equals(nodos[i + 1].dato)) {
+                        dir = "Si";
+                    } else {
+                        dir = "No";
+                    }
+                    this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato + " --- " + dir);
+                } catch (Exception e) {
                     this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato);
                 }
 
             }
-            {
-            }
+            long tiempoFin = System.nanoTime(); // Tiempo de finalización
+
+            // Calcular el tiempo transcurrido
+            long tiempoTranscurrido = tiempoFin - tiempoInicio;
+            this.jTextArea1.setText(this.jTextArea1.getText() + "\n\n\n" + tiempoTranscurrido); 
+
         } catch (Exception e) {
 
         }

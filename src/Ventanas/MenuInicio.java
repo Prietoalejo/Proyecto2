@@ -5,6 +5,10 @@
 package Ventanas;
 
 import EDD.Arbol;
+import EDD.LectorJSON;
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -21,6 +25,33 @@ public class MenuInicio extends javax.swing.JFrame {
         arbol = a;
     }
 
+    
+    public static String seleccionarArchivo() {
+        // Crear un objeto JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+
+        // Establecer el directorio inicial en la carpeta del proyecto
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+
+        // Configurar el filtro para archivos JSON
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos JSON", "json");
+        fileChooser.setFileFilter(filter);
+
+        // Configurar el JFileChooser
+        fileChooser.setDialogTitle("Seleccionar un archivo JSON");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY); // Solo archivos
+
+        // Mostrar el diálogo de selección de archivos
+        int resultado = fileChooser.showOpenDialog(null);
+
+        // Verificar si el usuario seleccionó un archivo
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fileChooser.getSelectedFile();
+            return archivoSeleccionado.getAbsolutePath(); // Devolver la ruta absoluta del archivo
+        }
+
+        return null; // Si no se seleccionó ningún archivo
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,25 +65,43 @@ public class MenuInicio extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jButton1.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
         jButton1.setText("Buscar Especie");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, -1, -1));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, -1, -1));
 
+        jButton2.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
         jButton2.setText("Determinar Especie");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 150, -1, -1));
 
+        jLabel1.setFont(new java.awt.Font("Rockwell", 1, 36)); // NOI18N
         jLabel1.setText("Menu Inicial");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, -1, -1));
+
+        jButton3.setFont(new java.awt.Font("Rockwell", 1, 24)); // NOI18N
+        jButton3.setText("Cargar Archivo");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 590));
 
@@ -64,6 +113,18 @@ public class MenuInicio extends javax.swing.JFrame {
         Determinar d = new Determinar(arbol);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Buscar d = new Buscar(arbol);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        LectorJSON l = new LectorJSON();
+        arbol = l.leerImprimirJson(this.seleccionarArchivo());
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,6 +164,7 @@ public class MenuInicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
