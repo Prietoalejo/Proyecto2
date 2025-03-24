@@ -11,22 +11,17 @@ import EDD.Nodo;
  *
  * @author Prietoalejo
  */
-public class Determinar extends javax.swing.JFrame {
+public class Buscar extends javax.swing.JFrame {
 
     static Arbol arbol;
-    Nodo actual;
 
     /**
-     * Creates new form Determinar
+     * Creates new form Buscar
      */
-    public Determinar(Arbol a) {
+    public Buscar(Arbol a) {
         initComponents();
-
-        this.arbol = a;
         this.setVisible(true);
-
-        actual = arbol.raiz;
-        this.jLabel2.setText(actual.dato);
+        this.arbol = a;
     }
 
     /**
@@ -39,20 +34,25 @@ public class Determinar extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("DETERMINAR ESPECIE");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("BUSCAR ESPECIE");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, -1, -1));
 
         jButton1.setText("SI");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -60,64 +60,66 @@ public class Determinar extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
-
-        jButton2.setText("NO");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, -1, -1));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 130, -1, -1));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 410, 260));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 410, 260));
 
-        jLabel2.setText("PREGUNTA");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, -1, -1));
+        jLabel2.setText("Preguntas:");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 110, -1, -1));
+        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 210, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 400));
+        jLabel3.setText("Nombre");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
+
+        jButton2.setText("Volver");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 400));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + actual.dato + " ---- Si");
-        this.actual = actual.der;
-        if (actual != null) {
-            if (actual.izq != null || actual.der != null) {
-                this.jLabel2.setText(actual.dato);
-            } else {
-                this.jLabel2.setText("La planta es: " + actual.dato);
-                this.jButton1.setEnabled(false);
-                this.jButton2.setEnabled(false);
-                this.jButton1.setVisible(false);
-                this.jButton2.setVisible(false);
+        try {
+            String name = this.jTextField1.getText().trim();
+            Nodo[] nodos = arbol.encontrarCamino(name);
+            for (int i = 0; i < nodos.length; i++) {
+                try{
+                    String dir;
+                  if(nodos[i].der.dato.equals(nodos[i+1].dato)){
+                      dir = "Si";
+                  }else{
+                      dir = "No";
+                  } 
+                  this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato + " --- " + dir);
+                }catch(Exception e){
+                    this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato);
+                }
 
             }
+            {
+            }
+        } catch (Exception e) {
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + actual.dato + " ---- No");
-        this.actual = actual.izq;
-        if (actual != null) {
-            if (actual.izq != null || actual.der != null) {
-                this.jLabel2.setText(actual.dato);
-            } else {
-                this.jLabel2.setText("La planta es: " + actual.dato);
-                this.jButton1.setEnabled(false);
-                this.jButton2.setEnabled(false);
-                this.jButton1.setVisible(false);
-                this.jButton2.setVisible(false);
-
-            }
-        }
+        MenuInicio mi = new MenuInicio(arbol);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -137,20 +139,20 @@ public class Determinar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Determinar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Determinar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Determinar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Determinar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Determinar(arbol).setVisible(true);
+                new Buscar(arbol).setVisible(true);
             }
         });
     }
@@ -160,8 +162,11 @@ public class Determinar extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

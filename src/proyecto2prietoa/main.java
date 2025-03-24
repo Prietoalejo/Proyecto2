@@ -4,12 +4,21 @@
  */
 package proyecto2prietoa;
 
+import EDD.Arbol;
 import EDD.LectorJSON;
+import Ventanas.MenuInicio;
 
 /**
  *
  * @author Prietoalejo
  */
 public class main {
-    LectorJSON lector = new LectorJSON();
+
+    public static void main(String[] args) {
+        LectorJSON lector = new LectorJSON();
+        Arbol a = lector.leerImprimirJson("familias_botanicas.json");
+        a.imprimirArbol();
+        MenuInicio mi = new MenuInicio(a);
+    }
+
 }

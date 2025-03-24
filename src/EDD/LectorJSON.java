@@ -24,9 +24,9 @@ import java.util.Map;
 
 public class LectorJSON {
 
-    public static Arbol leerImprimirJson(String archivoJson) {
+    public Arbol leerImprimirJson(String archivoJson) {
         StringBuilder contenido = new StringBuilder();
-        Arbol arbol= new Arbol();
+        Arbol arbol = new Arbol();
         // Leer el archivo JSON
         try (BufferedReader br = new BufferedReader(new FileReader(archivoJson))) {
             String linea;
@@ -43,15 +43,16 @@ public class LectorJSON {
 
         // Iterar sobre las claves del objeto JSON
         for (String claveDicotomica : jsonObject.keySet()) {
-            System.out.println("Nombre Clave dicotómica: " + claveDicotomica);
+//            System.out.println("Nombre Clave dicotómica: " + claveDicotomica);
             JSONArray especies = jsonObject.getJSONArray(claveDicotomica);
 
             // Iterar sobre las especies
             for (int i = 0; i < especies.length(); i++) {
                 JSONObject especie = especies.getJSONObject(i);
                 for (String nombreEspecie : especie.keySet()) {
-                    System.out.println("  Especie: " + nombreEspecie);
+//                    System.out.println("  Especie: " + nombreEspecie);
                     JSONArray preguntas = especie.getJSONArray(nombreEspecie);
+
                     Nodo esp = new Nodo(nombreEspecie);
                     Nodo padre = null;
                     boolean dir = false;
@@ -61,14 +62,19 @@ public class LectorJSON {
                         JSONObject pregunta = preguntas.getJSONObject(j);
                         for (String textoPregunta : pregunta.keySet()) {
                             boolean respuesta = pregunta.getBoolean(textoPregunta);
+//                            System.out.println(respuesta);
+
                             System.out.println("    Pregunta: " + textoPregunta + ", Respuesta: " + respuesta);
+
                             Nodo preg = new Nodo(textoPregunta);
-                            arbol.insertar(preg, padre, respuesta);
-                            padre = preg;
+                            padre = arbol.insertar(preg, padre, dir);
                             dir = respuesta;
                         }
                     }
                     arbol.insertar(esp, padre, dir);
+                    System.out.println("-------------------------------------------------------------------------");
+                    arbol.imprimirArbol();
+                    System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 }
             }
             System.out.println(); // Línea en blanco para separar las claves dicotómicas
@@ -76,8 +82,4 @@ public class LectorJSON {
         return arbol;
     }
 
-    public static void main(String[] args) {
-        String archivoJson = "ruta/al/archivo.json"; // Cambia esto a la ruta de tu archivo JSON
-        leerImprimirJson(archivoJson);
-    }
 }
