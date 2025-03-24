@@ -22,11 +22,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * La clase LectorJSON se encarga de leer un archivo JSON y construir un árbol
+ * a partir de su contenido. Este árbol representa una estructura jerárquica
+ * basada en las especies y sus respectivas preguntas y respuestas.
+ */
 public class LectorJSON {
 
+    /**
+     * Lee un archivo JSON especificado y construye un árbol a partir de su contenido.
+     * 
+     * @param archivoJson La ruta del archivo JSON que se va a leer.
+     * @return Un objeto de tipo Arbol que representa la estructura de datos
+     *         construida a partir del archivo JSON. Si ocurre un error al leer
+     *         el archivo, se devuelve null.
+     */
     public Arbol leerImprimirJson(String archivoJson) {
         StringBuilder contenido = new StringBuilder();
         Arbol arbol = new Arbol();
+        
         // Leer el archivo JSON
         try (BufferedReader br = new BufferedReader(new FileReader(archivoJson))) {
             String linea;
@@ -43,14 +57,12 @@ public class LectorJSON {
 
         // Iterar sobre las claves del objeto JSON
         for (String claveDicotomica : jsonObject.keySet()) {
-//            System.out.println("Nombre Clave dicotómica: " + claveDicotomica);
             JSONArray especies = jsonObject.getJSONArray(claveDicotomica);
 
             // Iterar sobre las especies
             for (int i = 0; i < especies.length(); i++) {
                 JSONObject especie = especies.getJSONObject(i);
                 for (String nombreEspecie : especie.keySet()) {
-//                    System.out.println("  Especie: " + nombreEspecie);
                     JSONArray preguntas = especie.getJSONArray(nombreEspecie);
 
                     Nodo esp = new Nodo(nombreEspecie);
@@ -62,7 +74,6 @@ public class LectorJSON {
                         JSONObject pregunta = preguntas.getJSONObject(j);
                         for (String textoPregunta : pregunta.keySet()) {
                             boolean respuesta = pregunta.getBoolean(textoPregunta);
-//                            System.out.println(respuesta);
 
                             System.out.println("    Pregunta: " + textoPregunta + ", Respuesta: " + respuesta);
 
@@ -81,5 +92,4 @@ public class LectorJSON {
         }
         return arbol;
     }
-
 }
