@@ -116,7 +116,7 @@ public class Buscar extends javax.swing.JFrame {
                     }
                     this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato + " --- " + dir);
                 } catch (Exception e) {
-                    this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato);
+//                    this.jTextArea1.setText(this.jTextArea1.getText() + "\n" + nodos[i].dato);
                 }
 
             }
@@ -124,10 +124,13 @@ public class Buscar extends javax.swing.JFrame {
 
             // Calcular el tiempo transcurrido
             long tiempoTranscurrido = tiempoFin - tiempoInicio;
-            this.jTextArea1.setText(this.jTextArea1.getText() + "\n\n\n" + tiempoTranscurrido); 
+                    double tiempoTranscurridoSegundos = tiempoTranscurrido / 1_000_000_000.0;
+
+            this.jTextArea1.setText(this.jTextArea1.getText() + "\n\n\n" + String.valueOf(tiempoTranscurridoSegundos) + " segundos"); 
 
         } catch (Exception e) {
-
+            e.printStackTrace();
+            this.jTextArea1.setText("Especie no encontrada");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
